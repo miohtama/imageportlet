@@ -1,0 +1,6 @@
+<layers>
+ <layer
+     name="imageportlet"
+     interface="imageportlet.interfaces.IAddonSpecific"
+     />
+</layers>
