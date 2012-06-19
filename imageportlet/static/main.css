@@ -1,23 +1,24 @@
 .imagePortlet .image-wrapper {
-    position: relative;
-    display: block;
+    display: table-cell;
+    vertical-align: middle;
 }
 
+
+/* Try to override Plone's default link border styles hard for image links */
 .imagePortlet .image-wrapper,
 .imagePortlet .image-wrapper:active,
 .imagePortlet .image-wrapper:visited,
-.imagePortlet .image-wrapper:hover {
-    text-decoration: none;
-    border: 0;
-}
-
-.imagePortlet img {
-    position: absolute;
+.imagePortlet .image-wrapper:hover,
+#content dl.imagePortlet a.image-wrapper,
+#content dl.imagePortlet a.image-wrapper:active,
+#content dl.imagePortlet a.image-wrapper:visited,
+#content dl.imagePortlet a.image-wrapper:hover,
+#content dl.imagePortlet a.image-wrapper:link {
+    border-bottom: 0 !important;
 }
 
 /* Text-over-image using relative + absolute positioning trick */
 .imagePortlet .text {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    text-align: center;
 }
+

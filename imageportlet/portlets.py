@@ -117,7 +117,7 @@ class Renderer(base.Renderer):
 
         width, height = self.data.image.getImageSize()
 
-        return "width: %dpx; height: %dpx" % (width, height)
+        return "background: white url(%s) no-repeat top left; width: %dpx; height: %dpx" % (self.getImageURL(), width, height)
 
     def getLink(self):
         """
@@ -140,7 +140,7 @@ class Renderer(base.Renderer):
 
         return "%s/%s" % (portal_state.portal_url(), link)
 
-    def getImageTag(self):
+    def getImageURL(self):
         """
         :return: The tag to be used to rended <img>
 
@@ -160,14 +160,8 @@ class Renderer(base.Renderer):
         # this information in sane way
         imageURL = "%s%s/edit/++widget++form.widgets.image/@@download/?buster=%s" % (portal_state.portal_url(), self.data.contextPath, modified)
 
-        if not self.data.textOnImage:
-            alt = self.data.text
-        else:
-            alt = ""
-
         # XXX: Escape
-
-        return '<img alt="%s" src="%s" />' % (alt, imageURL)
+        return imageURL
 
 
 class AddForm(z3cformhelper.AddForm):

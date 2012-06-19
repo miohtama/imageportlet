@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--  
+<!--
 
       http://collective-docs.readthedocs.org/en/latest/templates_css_and_javascripts/css.html#registering-a-new-css-file
 
@@ -10,6 +10,6 @@
       id="++resource++imageportlet/main.css"
       media="" rel="stylesheet" rendering="import"
       cacheable="True" compression="safe" cookable="True"
-      enabled="1" expression="" insert-after="ploneKss.css"/>
+      enabled="1" expression="" insert-after="mobile.css"/>
 
 </object>
