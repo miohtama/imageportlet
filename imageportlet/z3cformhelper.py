@@ -1,3 +1,5 @@
+import time
+
 from z3c.form import button
 from z3c.form import form
 from zope.component import getMultiAdapter
@@ -10,6 +12,27 @@ from plone.app.portlets.browser.interfaces import IPortletAddForm
 from plone.app.portlets.browser.interfaces import IPortletEditForm
 from plone.app.portlets.interfaces import IPortletPermissionChecker
 
+
+def getSiteRootRelativePath(context, request):
+    """ Get site root relative path to an item
+
+    @param context: Content item which path is resolved
+
+    @param request: HTTP request object
+
+    @return: Path to the context object, relative to site root, prefixed with a slash.
+    """
+
+    portal_state = getMultiAdapter((context, request), name=u'plone_portal_state')
+    site = portal_state.portal()
+
+    # Both of these are tuples
+    site_path = site.getPhysicalPath()
+    context_path = context.getPhysicalPath()
+
+    relative_path = context_path[len(site_path):]
+
+    return "/" + "/".join(relative_path)
 
 class AddForm(form.AddForm):
     implements(IPortletAddForm)
@@ -35,13 +58,22 @@ class AddForm(form.AddForm):
     @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='add')
     def handleAdd(self, action):
         data, errors = self.extractData()
+
         if errors:
             self.status = self.formErrorsMessage
             return
+
         obj = self.createAndAdd(data)
+
         if obj is not None:
             # mark only as finished if we get the new object
             self._finishedAdd = True
+
+            column = self.context.aq_parent
+
+            # Store site root relative path of the assigment in the assigment itself
+            path = getSiteRootRelativePath(column, self.request)
+            obj.contextPath = path + "/" + obj.getId()
 
     @button.buttonAndHandler(_(u"label_cancel", default=u"Cancel"),
                              name='cancel_add')
@@ -73,11 +105,14 @@ class EditForm(form.EditForm):
 
     @button.buttonAndHandler(_(u"label_save", default=u"Save"), name='apply')
     def handleSave(self, action):
+
         data, errors = self.extractData()
+
         if errors:
             self.status = self.formErrorsMessage
             return
         changes = self.applyChanges(data)
+
         if changes:
             self.status = "Changes saved"
         else:

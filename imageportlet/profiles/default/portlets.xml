@@ -4,9 +4,8 @@
 
   <portlet addview="imageportlet.ImagePortlet"
     title="Image Portlet"
-    description="A portlet with uploadable image"
-    i18n:attributes="title title_recent_portlet;
-                     description description_recent_portlet">
+    description="A portlet with uploadable image">
+
     <for interface="plone.app.portlets.interfaces.IColumn" />
 
   </portlet>

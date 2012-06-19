@@ -1,0 +1,10 @@
+<dl tal:attributes="class string:portlet imagePortlet ${view/data/css}">
+
+  <div class="image-wrapper">
+    <img tal:replace="structure view/getImageTag" />
+    <div class="text" tal:condition="view/data/imageText">
+      <tal:no-tag tal:omit-tag="" content="view/data/imageText" />
+    </div>
+  </div>
+
+</dl>

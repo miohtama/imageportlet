@@ -31,6 +31,14 @@ class ImagePortletHelper(grok.CodeView):
     Expose stuff downloadable from the image portlet BLOBs.
     """
     grok.context(Interface)
+    grok.baseclass()
+
+
+class ImagePortletImageDownload(ImagePortletHelper):
+    """
+    Expose stuff downloadable from the image portlet BLOBs.
+    """
+    grok.context(Interface)
 
     def render(self):
         return ""
