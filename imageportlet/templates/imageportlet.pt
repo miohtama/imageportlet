@@ -2,7 +2,7 @@
 
   <dd>
 
-    <div class="image-wrapper" tal:attributes="style view/getStyle" tal:condition="not:view/data/link">>
+    <div class="image-wrapper" tal:attributes="style view/getStyle" tal:condition="not:view/data/link">
       <div class="text" tal:condition="view/getVisibleText" tal:content="view/getVisibleText" />
     </div>
 
