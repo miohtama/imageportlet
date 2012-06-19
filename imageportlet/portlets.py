@@ -46,6 +46,8 @@ class IImagePortlet(form.Schema):
                                 description=_(u"Text over the image for buttonish images"),
                                 required=False)
 
+    drawText = schema.Bool(title=_(u"Is the text visible on the image"), default=True)
+
     link = schema.TextLine(title=_(u"Link"),
                            description=_(u"Absolute or site root relative link target"),
                            required=False)
@@ -98,7 +100,10 @@ class Renderer(base.Renderer):
     def getVisibleText(self):
         """
         """
-        return self.data.text
+        if getattr(self.data, "drawText", True):
+            return self.data.text
+
+        return None
 
     def getStyle(self):
         """
