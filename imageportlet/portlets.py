@@ -12,7 +12,7 @@ from plone.directives import form
 from five import grok
 
 from plone.app.portlets.portlets import base
-from Products.TinyMCE.vocabularies import thumbnail_sizes_vocabulary
+#from Products.TinyMCE.vocabularies import thumbnail_sizes_vocabulary
 
 import z3cformhelper  # XXX: Import from plone.app.portlets since Plone 4.3
 
@@ -21,8 +21,9 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plone.namedfile.interfaces import IImageScaleTraversable
 
-# Spoof gettext for now
+
 def _(x):
+    """ Spoof gettext for now """
     return x
 
 
@@ -41,8 +42,12 @@ class IImagePortlet(form.Schema):
     #                         description=_(u"Leave empty to use the orignal size"),
     #                         source=thumbnail_sizes_vocabulary, required=False)
 
-    imageText = schema.TextLine(title=_(u"Image text"),
+    text = schema.TextLine(title=_(u"Image text"),
                                 description=_(u"Text over the image for buttonish images"),
+                                required=False)
+
+    textOnImage = schema.Bool(title=_(u"Draw text on image"),
+                                description=_(u"Should we place text on image visible (a button) or leave it hidden for blind-reader web browsers"),
                                 required=False)
 
     link = schema.TextLine(title=_(u"Link"),
@@ -70,6 +75,9 @@ class Assignment(base.Assignment):
         """
         return DateTime(self._p_mtime)
 
+    def title(self):
+        return self.text
+
 
 class Renderer(base.Renderer):
 
@@ -91,6 +99,47 @@ class Renderer(base.Renderer):
 
         return None
 
+    def getVisibleText(self):
+        """
+        """
+        if self.data.textOnImage:
+            return self.data.text
+
+    def getStyle(self):
+        """
+        Get explicity style for the image-wrapper CSS class.
+
+        Use image width and height
+        """
+
+        if not self.data.image:
+            return
+
+        width, height = self.data.image.getImageSize()
+
+        return "width: %dpx; height: %dpx" % (width, height)
+
+    def getLink(self):
+        """
+        :return: absolute transformed link or None if link not present
+        """
+
+        if not self.data.link:
+            return None
+
+        if "//" in self.data.link:
+            return self.data.link
+
+        portal_state = getMultiAdapter((self.context, self.request), name=u'plone_portal_state')
+
+        # Strip leading /
+        link = self.data.link
+
+        if link.startswith("/"):
+            link = link[1:]
+
+        return "%s/%s" % (portal_state.portal_url(), link)
+
     def getImageTag(self):
         """
         :return: The tag to be used to rended <img>
@@ -111,7 +160,14 @@ class Renderer(base.Renderer):
         # this information in sane way
         imageURL = "%s%s/edit/++widget++form.widgets.image/@@download/?buster=%s" % (portal_state.portal_url(), self.data.contextPath, modified)
 
-        return '<img src="%s" />' % imageURL
+        if not self.data.textOnImage:
+            alt = self.data.text
+        else:
+            alt = ""
+
+        # XXX: Escape
+
+        return '<img alt="%s" src="%s" />' % (alt, imageURL)
 
 
 class AddForm(z3cformhelper.AddForm):

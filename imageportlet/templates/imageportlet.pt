@@ -1,10 +1,17 @@
 <dl tal:attributes="class string:portlet imagePortlet ${view/data/css}">
 
-  <div class="image-wrapper">
+  <div class="image-wrapper" tal:attributes="style view/getStyle" tal:condition="not:view/data/link">
     <img tal:replace="structure view/getImageTag" />
-    <div class="text" tal:condition="view/data/imageText">
-      <tal:no-tag tal:omit-tag="" content="view/data/imageText" />
+    <div class="text" tal:condition="view/getVisibleText">
+      <tal:no-tag omit-tag="" content="view/getVisibleText" />
     </div>
   </div>
+
+  <a tal:attributes="href view/getLink" class="image-wrapper" tal:condition="view/getLink">
+    <img tal:replace="structure view/getImageTag" />
+    <div class="text" tal:condition="view/getVisibleText">
+      <tal:no-tag omit-tag="" content="view/getVisibleText" />
+    </div>
+  </a>
 
 </dl>
