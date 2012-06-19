@@ -1,9 +1,5 @@
-import time
 from z3c.form import field
-from zope import schema
-from zope.component import getUtility, getMultiAdapter, queryMultiAdapter
 from zope.interface import implements
-from zope.site.hooks import setHooks, setSite
 
 from plone.directives import form
 
