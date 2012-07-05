@@ -1,15 +1,23 @@
 <dl tal:attributes="class string:portlet imagePortlet ${view/data/css}">
 
-  <dd>
+    <dd>
 
-    <div class="image-wrapper" tal:attributes="style view/getStyle" tal:condition="not:view/data/link">
-      <div class="text" tal:condition="view/getVisibleText" tal:content="view/getVisibleText" />
-    </div>
+        <div class="outer-wrapper" tal:condition="not:view/data/link">
+            <div class="heading" tal:content="view/data/headingText" />
+            <div class="image-wrapper" tal:attributes="style view/getStyle">
+                <div class="text" tal:condition="view/getOnImageText" tal:content="view/getOnImageText" />
+            </div>
+            <div class="footer" tal:content="view/data/footerText" />
+        </div>
 
-    <a tal:attributes="href view/getLink; style view/getStyle" class="image-wrapper" tal:condition="view/getLink">
-      <div class="text" tal:condition="view/getVisibleText" tal:content="view/getVisibleText" />
-    </a>
+        <a tal:attributes="href view/getLink" class="outeer-wrapper" tal:condition="view/getLink">
+            <div class="heading" tal:content="view/data/headingText" />
+            <div class="image-wrapper" tal:attributes="style view/getStyle">
+                <div class="text" tal:condition="view/getOnImageText" tal:content="view/getOnImageText" />
+            </div>
+            <div class="footer" tal:content="view/data/footerText" />
+        </a>
 
-  </dd>
+    </dd>
 
 </dl>

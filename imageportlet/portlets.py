@@ -1,7 +1,7 @@
 
 from Acquisition import aq_parent, aq_inner
 from DateTime import DateTime
-
+from zope.schema.fieldproperty import FieldProperty
 from z3c.form import field
 from z3c.form.form import DisplayForm
 from zope import schema
@@ -42,11 +42,22 @@ class IImagePortlet(form.Schema):
     #                         description=_(u"Leave empty to use the orignal size"),
     #                         source=thumbnail_sizes_vocabulary, required=False)
 
-    text = schema.TextLine(title=_(u"Image text"),
-                                description=_(u"Text over the image for buttonish images"),
-                                required=False)
+    headingText = schema.TextLine(title=_(u"Heading"),
+                           description=_(u"Text above the portlet"),
+                           required=False,
+                           default=u"")
 
-    drawText = schema.Bool(title=_(u"Is the text visible on the image"), default=True)
+    text = schema.TextLine(title=_(u"On image text"),
+                                description=_(u"Text over the image for buttonish images"),
+                                required=False,
+                                default=u"")
+
+    #drawText = schema.Bool(title=_(u"Is the text visible on the image"), default=True)
+
+    footerText = schema.TextLine(title=_(u"Footer"),
+                           description=_(u"Text below the portlet"),
+                           required=False,
+                           default=u"")
 
     link = schema.TextLine(title=_(u"Link"),
                            description=_(u"Absolute or site root relative link target"),
@@ -62,6 +73,11 @@ class Assignment(base.Assignment):
     # We need to explicitly mark our persistant data for @@images view look-up
     implements(IImagePortlet, IImageScaleTraversable)
 
+    # Make sure default values work correctly migration proof manner
+    text = FieldProperty(IImagePortlet["text"])
+    headingText = FieldProperty(IImagePortlet["headingText"])
+    footerText = FieldProperty(IImagePortlet["footerText"])
+
     def __init__(self, **kwargs):
         self.__dict__.update(**kwargs)
 
@@ -73,8 +89,12 @@ class Assignment(base.Assignment):
         """
         return DateTime(self._p_mtime)
 
+    @property
     def title(self):
-        return self.text
+        entries = [self.text, self.headingText, self.footerText, u"Image portlet"]
+        for e in entries:
+            if e:
+                return e
 
 
 class Renderer(base.Renderer):
@@ -97,13 +117,10 @@ class Renderer(base.Renderer):
 
         return None
 
-    def getVisibleText(self):
+    def getOnImageText(self):
         """
         """
-        if getattr(self.data, "drawText", True):
-            return self.data.text
-
-        return None
+        return self.data.text
 
     def getStyle(self):
         """
