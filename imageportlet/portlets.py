@@ -97,7 +97,7 @@ class Assignment(base.Assignment):
 
     @property
     def title(self):
-        entries = [self.text, self.headingText, self.footerText, u"Image portlet"]
+        entries = [self.text, self.altText, self.headingText, self.footerText, u"Image portlet"]
         for e in entries:
             if e:
                 return e
