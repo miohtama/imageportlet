@@ -10,7 +10,7 @@
             <div class="footer" tal:content="view/data/footerText" />
         </div>
 
-        <a tal:attributes="href view/getLink" class="outeer-wrapper" tal:condition="view/getLink">
+        <a tal:attributes="href view/getLink; title view/data/altText" class="outer-wrapper" tal:condition="view/getLink">
             <div class="heading" tal:content="view/data/headingText" />
             <div class="image-wrapper" tal:attributes="style view/getStyle">
                 <div class="text" tal:condition="view/getOnImageText" tal:content="view/getOnImageText" />

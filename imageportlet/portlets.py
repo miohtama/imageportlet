@@ -59,6 +59,11 @@ class IImagePortlet(form.Schema):
                            required=False,
                            default=u"")
 
+    altText = schema.TextLine(title=_(u"ALT text"),
+                           description=_(u"A placeholder text for web browsers which cannot display images. This text is only needed if the portlet has only the image and no other texts."),
+                           required=False,
+                           default=u"")
+
     link = schema.TextLine(title=_(u"Link"),
                            description=_(u"Absolute or site root relative link target"),
                            required=False)
@@ -77,6 +82,7 @@ class Assignment(base.Assignment):
     text = FieldProperty(IImagePortlet["text"])
     headingText = FieldProperty(IImagePortlet["headingText"])
     footerText = FieldProperty(IImagePortlet["footerText"])
+    altText = FieldProperty(IImagePortlet["altText"])
 
     def __init__(self, **kwargs):
         self.__dict__.update(**kwargs)
