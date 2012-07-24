@@ -5,15 +5,15 @@
 
 
 /* Try to override Plone's default link border styles hard for image links */
-.imagePortlet .image-wrapper,
-.imagePortlet .image-wrapper:active,
-.imagePortlet .image-wrapper:visited,
-.imagePortlet .image-wrapper:hover,
-#content dl.imagePortlet a.image-wrapper,
-#content dl.imagePortlet a.image-wrapper:active,
-#content dl.imagePortlet a.image-wrapper:visited,
-#content dl.imagePortlet a.image-wrapper:hover,
-#content dl.imagePortlet a.image-wrapper:link {
+.imagePortlet .outer-wrapper,
+.imagePortlet .outer-wrapper:active,
+.imagePortlet .outer-wrapper:visited,
+.imagePortlet .outer-wrapper:hover,
+#content dl.imagePortlet a.outer-wrapper,
+#content dl.imagePortlet a.outer-wrapper:active,
+#content dl.imagePortlet a.outer-wrapper:visited,
+#content dl.imagePortlet a.outer-wrapper:hover,
+#content dl.imagePortlet a.outer-wrapper:link {
     border-bottom: 0 !important;
 }
 

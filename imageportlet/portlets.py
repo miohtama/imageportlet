@@ -140,7 +140,7 @@ class Renderer(base.Renderer):
 
         width, height = self.data.image.getImageSize()
 
-        return "background: white url(%s) no-repeat top left; width: %dpx; height: %dpx" % (self.getImageURL(), width, height)
+        return "background: url(%s) no-repeat top left; width: %dpx; height: %dpx" % (self.getImageURL(), width, height)
 
     def getLink(self):
         """
