@@ -1,6 +1,6 @@
+/* http://www.vanseodesign.com/css/vertical-centering/ CSS Table Method explained */
 .imagePortlet .image-wrapper {
-    display: table-cell;
-    vertical-align: middle;
+    display: table;
 }
 
 
@@ -20,5 +20,7 @@
 /* Text-over-image using relative + absolute positioning trick */
 .imagePortlet .text {
     text-align: center;
+    vertical-align: middle;
+    display: table-cell;
 }
 
