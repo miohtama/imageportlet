@@ -5,11 +5,13 @@ Introduction
 
 Features
 
-* Inline image upload from a local computer into the portlet
+* Inline image upload from a local computer directly into the portlet. No separate image bank folder management needed.
 
-* Image can act as a banner link or simply server decorative purposes
+* Image can act as a link or simply serve as a decorative banner
 
 * Plain text slots for heading, footer, over-the-image text (button) and ``<img>`` alt text
+
+* Carousel images via `jQuery Cycle Lite <http://jquery.malsup.com/cycle/>`_
 
 Benefits
 ----------

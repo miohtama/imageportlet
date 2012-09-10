@@ -1,22 +1,30 @@
-<dl tal:attributes="class string:portlet imagePortlet ${view/data/css}">
+<dl tal:attributes="class string:portlet imagePortlet ${view/data/css}" xmlns:tal="http://xml.zope.org/namespaces/tal">
 
     <dd>
 
-        <div class="outer-wrapper" tal:condition="not:view/data/link">
-            <div class="heading" tal:content="view/data/headingText" />
-            <div class="image-wrapper" tal:attributes="style view/getStyle">
-                <div class="text" tal:condition="view/getOnImageText" tal:content="view/getOnImageText" />
+        <div class="outer-wrapper">
+
+            <div class="heading" tal:condition="not:view/getDefaultLink" tal:content="view/data/headingText" />
+            <a class="heading" tal:condition="view/getDefaultLink" tal:attributes="href view/getDefaultLink" tal:content="view/data/headingText" />
+
+            <div tal:attributes="class view/getCarouselCSSClass">
+
+                <tal:image repeat="imageDesc view/imageData">
+
+                    <div class="image-wrapper" tal:condition="not:python:view.getLink(imageDesc)" tal:attributes="style python:view.getStyle(imageDesc)">
+                        <div class="text" tal:condition="view/getOnImageText" tal:content="view/getOnImageText" />
+                    </div>
+
+                    <a class="image-wrapper" tal:condition="python:view.getLink(imageDesc)" tal:attributes="style python:view.getStyle(imageDesc); href python:view.getLink(imageDesc)">
+                            <div class="text" tal:condition="view/getOnImageText" tal:content="view/getOnImageText" />
+                    </a>
+
+                </tal:image>
             </div>
+
             <div class="footer" tal:content="view/data/footerText" />
         </div>
 
-        <a tal:attributes="href view/getLink; title view/data/altText" class="outer-wrapper" tal:condition="view/getLink">
-            <div class="heading" tal:content="view/data/headingText" />
-            <div class="image-wrapper" tal:attributes="style view/getStyle">
-                <div class="text" tal:condition="view/getOnImageText" tal:content="view/getOnImageText" />
-            </div>
-            <div class="footer" tal:content="view/data/footerText" />
-        </a>
 
     </dd>
 

@@ -33,9 +33,35 @@ class IImagePortlet(form.Schema):
     """
 
     image = NamedImage(
-            title=_(u"Please upload an image"),
+            title=_(u"Image"),
+            description=_(u"Please upload an image"),
             required=False,
         )
+
+    link = schema.TextLine(title=_(u"Link"),
+                           description=_(u"Absolute or site root relative link target"),
+                           required=False)
+
+
+    image2 = NamedImage(
+            title=_(u"Image #2"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+        )
+
+    link2 = schema.TextLine(title=_(u"Link #2"),
+                           description=_(u"Absolute or site root relative link target for image #2"),
+                           required=False)
+
+    image3 = NamedImage(
+            title=_(u"Image #3"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+        )
+
+    link3 = schema.TextLine(title=_(u"Link #3"),
+                           description=_(u"Absolute or site root relative link target for image #2"),
+                           required=False)
 
     # XXX: Have site specific configurable vocabulary for portlets here
     #imageSize = schema.Choice(title=_(u"Image size"),
@@ -64,9 +90,7 @@ class IImagePortlet(form.Schema):
                            required=False,
                            default=u"")
 
-    link = schema.TextLine(title=_(u"Link"),
-                           description=_(u"Absolute or site root relative link target"),
-                           required=False)
+
 
     css = schema.TextLine(title=_(u"HTML styling"),
                           description=_(u"Extra CSS classes"),
@@ -107,6 +131,48 @@ class Renderer(base.Renderer):
 
     render = ViewPageTemplateFile('templates/imageportlet.pt')
 
+    def update(self):
+        """
+        """
+        self.imageData = self.compileImageData()
+
+    def compileImageData(self):
+        """
+        Compile a list of images
+        """
+
+        data = []
+
+        if self.data.image:
+            data.append(dict(image=self.data.image, link=self.data.link, id="image"))
+
+        # getattr -> migration safe
+        if getattr(self.data, "image2", None):
+            data.append(dict(image=self.data.image2, link=self.data.link2, id="image2"))
+
+        if getattr(self.data, "image3", None):
+            data.append(dict(image=self.data.image3, link=self.data.link3, id="image3"))
+
+        return data
+
+    def getDefaultImage(self):
+        """
+        Return the first available image or None
+        """
+        if len(self.imageData) > 0:
+            return self.imageData[0]["image"]
+        return None
+
+    def getDefaultLink(self):
+        """
+        Return the first available link or None
+        """
+        for desc in self.imageData:
+            link = desc["link"]
+            if link:
+                return link
+        return None
+
     def getAcquisitionChainedAssigment(self):
         """
         FFFFUUUUUUU Plone.
@@ -128,42 +194,40 @@ class Renderer(base.Renderer):
         """
         return self.data.text
 
-    def getStyle(self):
+    def getStyle(self, imageDesc):
         """
         Get explicity style for the image-wrapper CSS class.
 
         Use image width and height
         """
 
-        if not self.data.image:
-            return
+        image = imageDesc["image"]
 
-        width, height = self.data.image.getImageSize()
+        width, height = image.getImageSize()
 
-        return "background: url(%s) no-repeat top left; width: %dpx; height: %dpx" % (self.getImageURL(), width, height)
+        return "background: url(%s) no-repeat top left; width: %dpx; height: %dpx" % (self.getImageURL(imageDesc), width, height)
 
-    def getLink(self):
+    def getLink(self, imageDesc):
         """
         :return: absolute transformed link or None if link not present
         """
 
-        if not self.data.link:
+        link = imageDesc["link"]
+
+        if not link:
             return None
 
-        if "//" in self.data.link:
-            return self.data.link
+        if "//" in link:
+            return link
 
         portal_state = getMultiAdapter((self.context, self.request), name=u'plone_portal_state')
-
-        # Strip leading /
-        link = self.data.link
 
         if link.startswith("/"):
             link = link[1:]
 
         return "%s/%s" % (portal_state.portal_url(), link)
 
-    def getImageURL(self):
+    def getImageURL(self, imageDesc):
         """
         :return: The tag to be used to rended <img>
 
@@ -178,14 +242,23 @@ class Renderer(base.Renderer):
 
         portal_state = getMultiAdapter((self.context, self.request), name=u'plone_portal_state')
 
+        imageId = imageDesc["id"]
+
         # Scaled version object
         # XXX: Hardcored until the mess called Plone portlet management can provide
         # this information in sane way
-        imageURL = "%s%s/edit/++widget++form.widgets.image/@@download/?buster=%s" % (portal_state.portal_url(), self.data.contextPath, modified)
+        imageURL = "%s%s/edit/++widget++form.widgets.%s/@@download/?buster=%s" % (portal_state.portal_url(), self.data.contextPath, imageId, modified)
 
         # XXX: Escape
         return imageURL
 
+    def getCarouselCSSClass(self):
+        """
+        """
+        if len(self.imageData) > 0:
+            return "image-portlet-carousel"
+        else:
+            return "image-portlet-no-carousel"
 
 class AddForm(z3cformhelper.AddForm):
 
