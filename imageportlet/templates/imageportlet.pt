@@ -22,7 +22,8 @@
                 </tal:image>
             </div>
 
-            <div class="footer" tal:content="view/data/footerText" />
+            <div class="footer" tal:condition="not:view/getDefaultLink" tal:content="view/data/footerText" />
+            <a class="footer" tal:condition="view/getDefaultLink" tal:attributes="href view/getDefaultLink" tal:content="view/data/footerText" />
         </div>
 
 

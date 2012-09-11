@@ -1,25 +1,21 @@
+from random import shuffle
 
-from Acquisition import aq_parent, aq_inner
 from DateTime import DateTime
 from zope.schema.fieldproperty import FieldProperty
 from z3c.form import field
-from z3c.form.form import DisplayForm
 from zope import schema
 from zope.interface import implements
 from zope.component import getMultiAdapter
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plone.directives import form
-from five import grok
-
 from plone.app.portlets.portlets import base
 #from Products.TinyMCE.vocabularies import thumbnail_sizes_vocabulary
 
-import z3cformhelper  # XXX: Import from plone.app.portlets since Plone 4.3
-
 from plone.namedfile.field import NamedImage
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from plone.namedfile.interfaces import IImageScaleTraversable
+
+import z3cformhelper  # XXX: Import from plone.app.portlets since Plone 4.3
 
 
 def _(x):
@@ -40,28 +36,41 @@ class IImagePortlet(form.Schema):
 
     link = schema.TextLine(title=_(u"Link"),
                            description=_(u"Absolute or site root relative link target"),
-                           required=False)
-
+                           required=False,
+                           default=None)
 
     image2 = NamedImage(
             title=_(u"Image #2"),
             description=_(u"Several images will be shown as a carousel"),
             required=False,
-        )
+            default=None)
 
     link2 = schema.TextLine(title=_(u"Link #2"),
                            description=_(u"Absolute or site root relative link target for image #2"),
-                           required=False)
+                           required=False,
+                            default=None)
 
     image3 = NamedImage(
             title=_(u"Image #3"),
             description=_(u"Several images will be shown as a carousel"),
             required=False,
-        )
+            default=None)
 
     link3 = schema.TextLine(title=_(u"Link #3"),
                            description=_(u"Absolute or site root relative link target for image #2"),
-                           required=False)
+                           required=False,
+                           default=None)
+
+    image4 = NamedImage(
+            title=_(u"Image #4"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+            default=None)
+
+    link4 = schema.TextLine(title=_(u"Link #4"),
+                           description=_(u"Absolute or site root relative link target for image #2"),
+                           required=False,
+                           default=None)
 
     # XXX: Have site specific configurable vocabulary for portlets here
     #imageSize = schema.Choice(title=_(u"Image size"),
@@ -90,8 +99,6 @@ class IImagePortlet(form.Schema):
                            required=False,
                            default=u"")
 
-
-
     css = schema.TextLine(title=_(u"HTML styling"),
                           description=_(u"Extra CSS classes"),
                           required=False)
@@ -108,6 +115,18 @@ class Assignment(base.Assignment):
     footerText = FieldProperty(IImagePortlet["footerText"])
     altText = FieldProperty(IImagePortlet["altText"])
 
+    image = FieldProperty(IImagePortlet["image"])
+    link = FieldProperty(IImagePortlet["link"])
+
+    image2 = FieldProperty(IImagePortlet["image2"])
+    link2 = FieldProperty(IImagePortlet["link2"])
+
+    image3 = FieldProperty(IImagePortlet["image3"])
+    link3 = FieldProperty(IImagePortlet["link3"])
+
+    image4 = FieldProperty(IImagePortlet["image4"])
+    link4 = FieldProperty(IImagePortlet["link4"])
+
     def __init__(self, **kwargs):
         self.__dict__.update(**kwargs)
 
@@ -121,6 +140,9 @@ class Assignment(base.Assignment):
 
     @property
     def title(self):
+        """
+        Be smart as what show as the management interface title.
+        """
         entries = [self.text, self.altText, self.headingText, self.footerText, u"Image portlet"]
         for e in entries:
             if e:
@@ -153,6 +175,12 @@ class Renderer(base.Renderer):
         if getattr(self.data, "image3", None):
             data.append(dict(image=self.data.image3, link=self.data.link3, id="image3"))
 
+        if getattr(self.data, "image4", None):
+            data.append(dict(image=self.data.image4, link=self.data.link4, id="image4"))
+
+        # Randomize the display order
+        shuffle(data)
+
         return data
 
     def getDefaultImage(self):
@@ -165,12 +193,14 @@ class Renderer(base.Renderer):
 
     def getDefaultLink(self):
         """
-        Return the first available link or None
+        Return the only link for the portlet which can be used with the header/footer text.
+
+        If we have several images we cannot rotate these links.
         """
-        for desc in self.imageData:
-            link = desc["link"]
-            if link:
-                return link
+
+        if len(self.imageData) == 1:
+            return self.imageData[0]["link"]
+
         return None
 
     def getAcquisitionChainedAssigment(self):
@@ -256,9 +286,11 @@ class Renderer(base.Renderer):
         """
         """
         if len(self.imageData) > 0:
+            # Referred in JS
             return "image-portlet-carousel"
         else:
             return "image-portlet-no-carousel"
+
 
 class AddForm(z3cformhelper.AddForm):
 
