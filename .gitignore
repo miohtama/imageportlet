@@ -24,7 +24,7 @@ dist
 *~
 *.bak
 .coverage
-*.pyd 
+*.pyd
 *.so
 *.orig
 *.rej
@@ -34,15 +34,4 @@ __minitage__*
 .settings
 .project
 .pydevproject
-
-jsdoc*
-releases
-
 .DS_Store
-docs/apidocs/*
-
-*.min.js
-*.min.css
-*.debug.css
-*.db
-*.jar
