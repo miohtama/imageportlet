@@ -285,7 +285,7 @@ class Renderer(base.Renderer):
     def getCarouselCSSClass(self):
         """
         """
-        if len(self.imageData) > 0:
+        if len(self.imageData) > 1:
             # Referred in JS
             return "image-portlet-carousel"
         else:
