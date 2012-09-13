@@ -4,8 +4,9 @@
 
         <div class="outer-wrapper">
 
-            <div class="heading" tal:condition="not:view/getDefaultLink" tal:content="view/data/headingText" />
-            <a class="heading" tal:condition="view/getDefaultLink" tal:attributes="href view/getDefaultLink" tal:content="view/data/headingText" />
+            <div class="heading" tal:condition="python: not view.getDefaultLink() and view.data.headingText" tal:content="view/data/headingText" />
+
+            <a class="heading" tal:condition="python: view.getDefaultLink() and view.data.headingText" tal:attributes="href view/getDefaultLink" tal:content="view/data/headingText" />
 
             <div tal:attributes="class view/getCarouselCSSClass">
 
@@ -22,8 +23,9 @@
                 </tal:image>
             </div>
 
-            <div class="footer" tal:condition="not:view/getDefaultLink" tal:content="view/data/footerText" />
-            <a class="footer" tal:condition="view/getDefaultLink" tal:attributes="href view/getDefaultLink" tal:content="view/data/footerText" />
+            <div class="footer" tal:condition="python:not view.getDefaultLink() and view.data.footerText" tal:content="view/data/footerText" />
+
+            <a class="footer" tal:condition="python: view.getDefaultLink() and view.data.footerText" tal:attributes="href view/getDefaultLink" tal:content="view/data/footerText" />
         </div>
 
 
