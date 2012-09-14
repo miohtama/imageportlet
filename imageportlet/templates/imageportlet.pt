@@ -2,7 +2,7 @@
 
     <dd>
 
-        <div class="outer-wrapper">
+        <div class="outer-wrapper" tal:attributes="style view/getWrapperStyle">
 
             <div class="heading" tal:condition="python: not view.getDefaultLink() and view.data.headingText" tal:content="view/data/headingText" />
 

@@ -285,12 +285,26 @@ class Renderer(base.Renderer):
     def getCarouselCSSClass(self):
         """
         """
+
         if len(self.imageData) > 1:
             # Referred in JS
             return "image-portlet-carousel"
         else:
             return "image-portlet-no-carousel"
 
+    def getWrapperStyle(self):
+        """
+        Allocate pixel spaces to show all carousel images, so no jumpy pages
+        """
+        max_width = 0
+        max_height = 0
+
+        for imageDesc in self.data.imageData:
+            size = imageDesc["image"].getImageSize()
+            max_width = max(size[0], max_width)
+            max_height = max(size[1], max_height)
+
+        return "min-width: %dpx; min-height: %dpx" % (max_width, max_height)
 
 class AddForm(z3cformhelper.AddForm):
 
