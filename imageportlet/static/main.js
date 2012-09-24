@@ -17,7 +17,7 @@
     "use strict";
 
     function rotateBanners() {
-        $(".image-portlet-carousel").cycle();
+        $(".image-portlet-carousel").cycle({timeout:5500});
     }
 
     $(document).ready(function() {
