@@ -1,3 +1,4 @@
+import urllib
 from random import shuffle
 
 from DateTime import DateTime
@@ -259,27 +260,20 @@ class Renderer(base.Renderer):
 
     def getImageURL(self, imageDesc):
         """
-        :return: The tag to be used to rended <img>
+        :return: The URL where the image can be downloaded from.
 
         """
+        context = self.context.aq_inner
 
-        # The real context, where the data is stored, here is Assignment
-        # self.context points to the viewed portal item
+        params = dict(
+            portletName=self.__portlet_metadata__["name"],
+            portletManager=self.__portlet_metadata__["manager"],
+            image=imageDesc["id"],
+            modified=self.data._p_mtime
+        )
 
-        # http://plone.org/products/plone.app.imaging
+        imageURL = "%s/@@image-portlet-downloader?%s" % (context.absolute_url(), urllib.urlencode(params))
 
-        modified = self.data._p_mtime
-
-        portal_state = getMultiAdapter((self.context, self.request), name=u'plone_portal_state')
-
-        imageId = imageDesc["id"]
-
-        # Scaled version object
-        # XXX: Hardcored until the mess called Plone portlet management can provide
-        # this information in sane way
-        imageURL = "%s%s/edit/++widget++form.widgets.%s/@@download/?buster=%s" % (portal_state.portal_url(), self.data.contextPath, imageId, modified)
-
-        # XXX: Escape
         return imageURL
 
     def getCarouselCSSClass(self):
@@ -305,6 +299,7 @@ class Renderer(base.Renderer):
             max_height = max(size[1], max_height)
 
         return "min-width: %dpx; min-height: %dpx" % (max_width, max_height)
+
 
 class AddForm(z3cformhelper.AddForm):
 

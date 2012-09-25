@@ -7,6 +7,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:cache="http://namespaces.zope.org/cache"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="imageportlet">
 
   <include package="five.grok" />
@@ -33,4 +35,8 @@
         addview=".portlets.AddForm"
         editview=".portlets.EditForm"
         />
+
+
+  <include zcml:condition="installed plone.app.caching" file="cache.zcml" />
+
 </configure>

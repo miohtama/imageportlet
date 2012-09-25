@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:cache="http://namespaces.zope.org/cache"
+    >
+
+  <include package="z3c.caching" file="meta.zcml" />
+  <include package="plone.app.caching" />
+
+  <!-- Because we generate the image URL containing image modified timestamp,
+       the URL is always stable and when image changes the URL changes.
+       Thus, we can use strong caching (cache URL forever)
+    -->
+
+  <cache:ruleset
+      for=".views.ImagePortletImageDownload"
+      ruleset="plone.stableResource"
+      />
+
+
+</configure>

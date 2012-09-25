@@ -13,6 +13,8 @@ Features
 
 * Carousel images via `jQuery Cycle Lite <http://jquery.malsup.com/cycle/>`_
 
+* Cache friendly: unique URLs after each edit allows the images cached forever in the front-end cache
+
 Benefits
 ----------
 
