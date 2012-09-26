@@ -15,6 +15,13 @@ Features
 
 * Cache friendly: unique URLs after each edit allows the images cached forever in the front-end cache
 
+Use cases
+----------
+
+* Image menus and links
+
+* In-house advertisement banners
+
 Benefits
 ----------
 

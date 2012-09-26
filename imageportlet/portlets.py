@@ -265,11 +265,13 @@ class Renderer(base.Renderer):
         """
         context = self.context.aq_inner
 
+        # [{'category': 'context', 'assignment': <imageportlet.portlets.Assignment object at 0x1138bb140>, 'name': u'bound-method-assignment-title-of-assignment-at-1', 'key': '/Plone/fi'},
         params = dict(
             portletName=self.__portlet_metadata__["name"],
             portletManager=self.__portlet_metadata__["manager"],
             image=imageDesc["id"],
-            modified=self.data._p_mtime
+            modified=self.data._p_mtime,
+            portletKey=self.__portlet_metadata__["key"],
         )
 
         imageURL = "%s/@@image-portlet-downloader?%s" % (context.absolute_url(), urllib.urlencode(params))

@@ -15,14 +15,16 @@
 # pylint: disable=W0611
 
 # Zope imports
+from zExceptions import InternalError
 from zope.interface import Interface
 from zope.component import getUtility, getMultiAdapter
 from five import grok
 
 # Plone imports
 from plone.portlets.interfaces import IPortletManager
-from plone.portlets.interfaces import IPortletAssignmentMapping
+from plone.portlets.interfaces import IPortletRetriever
 from plone.namedfile.utils import set_headers, stream_data
+
 
 # Local imports
 from interfaces import IAddonSpecific
@@ -48,25 +50,59 @@ class ImagePortletImageDownload(ImagePortletHelper):
     grok.context(Interface)
     grok.name("image-portlet-downloader")
 
+    def getPortletById(self, content, portletManager, key, name):
+        """
+        :param content: Context item where the look-up is performed
+
+        :param portletManager: Portlet manager name as a string
+
+        :param key: Assignment key... context path as string for content portlets
+
+        :param name: Portlet name as a string
+
+        :return: Portlet assignment instance
+        """
+
+        # Make sure we got input
+        assert key, "Give a proper portlet assignment key"
+        assert name, "Give a proper portlet assignment name"
+
+        # Resolve portlet and its image field
+        manager = getUtility(IPortletManager, name=portletManager, context=content)
+
+        # Mappings can be directly used only when
+        # portlet is directly assignment to the content.
+        # If it is assigned to the parent we would fail here.
+        # mapping = getMultiAdapter((content, manager), IPortletAssignmentMapping)
+
+        retriever = getMultiAdapter((content, manager,), IPortletRetriever)
+
+        for assignment in retriever.getPortlets():
+            if assignment["key"] == key and assignment["name"] == name:
+                return assignment["assignment"]
+
+        return None
+
     def render(self):
         """
 
         """
-        content = self.context
+        content = self.context.aq_inner
 
         # Read portlet assignment pointers from the GET query
         name = self.request.form.get("portletName")
-        portletManager = self.request.form.get("portletManager")
+        manager = self.request.form.get("portletManager")
         imageId = self.request.form.get("image")
+        key = self.request.form.get("portletKey")
 
-        # Resolve portlet and its image field
-        manager = getUtility(IPortletManager, name=portletManager, context=content)
-        mapping = getMultiAdapter((content, manager), IPortletAssignmentMapping)
-        portlet = mapping[name]
+        portlet = self.getPortletById(content, manager, key, name)
+        if not portlet:
+            raise InternalError("Portlet not found: %s %s" % (key, name))
+
         image = getattr(portlet, imageId, None)
         if not image:
             # Ohops?
-            return ""
+            raise InternalError("Image was empty: %s" % imageId)
 
         # Set content type and length headers
         set_headers(image, self.request.response)
