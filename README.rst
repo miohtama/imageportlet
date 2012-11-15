@@ -29,6 +29,15 @@ The benefit over static text portlet + TinyMCE uploaded images is that
 the image blob exist within the portlet. The management interface is simpler
 and you do not separate image bank. The management is much streamlined for non-power users.
 
+Installation
+-------------
+
+Plone 4: add ``imageportlet`` to eggs in buildout.cfg::
+
+    eggs =
+        ...
+        imageportlet
+
 Limitations
 ------------
 

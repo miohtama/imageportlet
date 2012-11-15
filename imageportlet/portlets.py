@@ -18,6 +18,8 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 import z3cformhelper  # XXX: Import from plone.app.portlets since Plone 4.3
 
+from plone.formwidget.namedfile.widget import NamedImageFieldWidget
+
 
 def _(x):
     """ Spoof gettext for now """

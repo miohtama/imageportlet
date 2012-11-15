@@ -20,7 +20,7 @@ setup(name = "imageportlet",
     author = "",
     author_email = "",
     url = "",
-    install_requires = ["five.grok", "z3c.jbot", "plone.namedfile"],
+    install_requires = ["five.grok", "z3c.jbot", "plone.namedfile", "plone.formwidget.namedfile"],
     packages = ['imageportlet'],
     classifiers=[
         "Framework :: Plone",
