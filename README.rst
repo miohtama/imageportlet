@@ -1,5 +1,5 @@
 Introduction
--------------
+===========================
 
 *imageportlet* add-on provides a portlet for `Plone CMS <http://plone.org>`_
 for easily add images, banners and carousels around the content on your site.
@@ -7,7 +7,7 @@ for easily add images, banners and carousels around the content on your site.
 .. contents:: :local:
 
 Features
----------
+===========================
 
 * Inline image upload from a local computer directly into the portlet. No separate image bank folder management needed.
 
@@ -22,7 +22,7 @@ Features
 .. image :: https://github.com/downloads/miohtama/imageportlet/Screen%20Shot%202012-11-15%20at%204.32.42%20PM.png
 
 Use cases
-----------
+===========================
 
 * `Image menus and links <http://www.visitkalajoki.fi>`_
 
@@ -33,7 +33,7 @@ Use cases
 * `Mini image carousels <http://www.hotellilevitunturi.fi/fi/>`_.
 
 Benefits
-----------
+===========================
 
 The benefit over static text portlet + TinyMCE uploaded images is vastly
 easier user experience. You don't need to separate portlets or place to upload the image:
@@ -42,7 +42,7 @@ images are managed within the portlet.
 The management is much streamlined for non-power users.
 
 Installation
--------------
+===========================
 
 The add-on is compatible down to Plone 3.3.5.
 
@@ -73,12 +73,12 @@ Install the ``imageportlet`` add-on in Site Setup.
 Go to any portlet manager and choose *Add new portlert... Image Portlet*.
 
 Limitations
-------------
+===========================
 
 IE6 might not render over-the-image text correclty, but the user interface is still functional.
 
 Troubleshooting
-----------------
+===========================
 
 Traceback::
 
@@ -97,7 +97,12 @@ Traceback::
 
 Reason: Make sure *Plone z3c.form support* is installed on the site.
 
+Source code and issue tracker
+======================================================
+
+* https://github.com/miohtama/imageportlet
+
 Author
--------
+===========================
 
 `Mikko Ohtamaa <http://opensourcehacker.com>`_
