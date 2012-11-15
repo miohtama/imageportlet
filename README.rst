@@ -111,6 +111,8 @@ Similar add-ons
 
 * `redomino.tabsandslides <http://pypi.python.org/pypi/redomino.tabsandslides/>`_
 
+* `collective.tabr <https://github.com/collective/collective.tabr>´_
+
 Author
 ===========================
 
