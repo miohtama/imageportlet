@@ -2,7 +2,7 @@
 
     Declare a Python package imageportlet
 
-    See 
+    See
 
     * http://wiki.python.org/moin/Distutils/Tutorial
 
@@ -20,12 +20,12 @@ setup(name = "imageportlet",
     author = "",
     author_email = "",
     url = "",
-    install_requires = ["five.grok", "z3c.jbot"],
+    install_requires = ["five.grok", "z3c.jbot", "plone.namedfile"],
     packages = ['imageportlet'],
     classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
-    ],     
+    ],
     license="GPL2",
     include_package_data = True,
     entry_points="""
@@ -33,5 +33,5 @@ setup(name = "imageportlet",
 
       [z3c.autoinclude.plugin]
       target = plone
-      """,        
-) 
+      """,
+)
