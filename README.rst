@@ -1,7 +1,8 @@
 Introduction
 -------------
 
-*imageportlet* add-on provides a new portlet type for `Plone CMS <http://plone.org>`_.
+*imageportlet* add-on provides a portlet for `Plone CMS <http://plone.org>`_
+for easily add images, banners and carousels around the content on your site.
 
 Features
 
@@ -15,12 +16,18 @@ Features
 
 * Cache friendly: unique URLs after each edit allows the images cached forever in the front-end cache
 
+.. image :: https://github.com/downloads/miohtama/imageportlet/Screen%20Shot%202012-11-15%20at%204.32.42%20PM.png
+
 Use cases
 ----------
 
 * `Image menus and links <http://www.visitkalajoki.fi>`_
 
+* `image buttons <http://www.visitkalajoki.fi/fi/teemat/pariskunnat>`_.
+
 * `In-house advertisement banners <http://www.visitkalajoki.fi>`_
+
+* `Mini image carousels <http://www.hotellilevitunturi.fi/fi/>`_.
 
 Benefits
 ----------
@@ -33,6 +40,10 @@ The management is much streamlined for non-power users.
 
 Installation
 -------------
+
+The add-on is compatible down to Plone 3.3.5.
+
+Update buildout.
 
 Plone 4.2 and newer: add ``imageportlet`` to eggs in buildout.cfg::
 
@@ -51,14 +62,37 @@ Old releases: `With Dexterity 1.1 pindowns <http://plone.org/products/dexterity/
         ...
         imageportlet
 
-The add-on is compatible down to Plone 3.3.5.
 
+Run buildout.
+
+Install the ``imageportlet`` add-on in Site Setup.
+
+Go to any portlet manager and choose *Add new portlert... Image Portlet*.
 
 Limitations
 ------------
 
 IE6 might not render over-the-image text correclty, but the user interface is still functional.
 
+Troubleshooting
+----------------
+
+Traceback::
+
+    Traceback (innermost last):
+      Module ZPublisher.Publish, line 119, in publish
+      Module ZPublisher.mapply, line 88, in mapply
+      Module ZPublisher.Publish, line 42, in call_object
+      Module imageportlet.z3cformhelper, line 66, in __call__
+      Module z3c.form.form, line 215, in __call__
+      Module z3c.form.form, line 208, in update
+      Module plone.z3cform.patch, line 21, in BaseForm_update
+      Module z3c.form.form, line 149, in update
+      Module z3c.form.form, line 128, in updateWidgets
+      Module zope.component._api, line 103, in getMultiAdapter
+    ComponentLookupError: ((<Products.Five.metaclass.AddForm object at 0x1137edfd0>, <HTTPRequest, URL=http://localhost:9888/test/++contextportlets++plone.rightcolumn/+/imageportlet.ImagePortlet>, <+ at /test/++contextportlets++plone.rightcolumn/+>), <InterfaceClass z3c.form.interfaces.IWidgets>, u'')
+
+Reason: Make sure *Plone z3c.form support* is installed on the site.
 
 Author
 -------
