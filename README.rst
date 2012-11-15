@@ -102,6 +102,11 @@ Source code and issue tracker
 
 * https://github.com/miohtama/imageportlet
 
+Similar add-ons
+=================
+
+* `redomino.tabsandslides <http://pypi.python.org/pypi/redomino.tabsandslides/>`_
+
 Author
 ===========================
 
