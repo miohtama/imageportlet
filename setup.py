@@ -14,7 +14,7 @@
 
 from setuptools import setup
 
-long_desc = open("README.txt").read() + "\n" + open("CHANGES.txt").read()
+long_desc = open("README.rst").read() + "\n" + open("CHANGES.txt").read()
 
 version = '1.0'
 
