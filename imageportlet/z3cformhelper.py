@@ -38,17 +38,17 @@ def getSiteRootRelativePath(context, request):
 
     # Both of these are tuples
     site_path = site.getPhysicalPath()
+    if not hasattr(context, "getPhysicalPath"):
+        # Plone 3 fix
+        #  <Products.Five.metaclass.AddForm object at 0x106671290> ->
+        #  /xx/fi/++contextportlets++ContentWellPortlets.AbovePortletManager1/+>
+        context = context.context
+
     context_path = context.getPhysicalPath()
 
     relative_path = context_path[len(site_path):]
 
     return "/" + "/".join(relative_path)
-
-class ImagePortletFormMixin:
-    """
-    Add + Edit form shared functions.
-    """
-
 
 
 class AddForm(form.AddForm):
