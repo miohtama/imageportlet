@@ -4,7 +4,10 @@ Introduction
 *imageportlet* add-on provides a portlet for `Plone CMS <http://plone.org>`_
 for easily add images, banners and carousels around the content on your site.
 
+.. contents:: :local:
+
 Features
+---------
 
 * Inline image upload from a local computer directly into the portlet. No separate image bank folder management needed.
 
