@@ -4,6 +4,10 @@ Introduction
 *imageportlet* add-on provides a portlet for `Plone CMS <http://plone.org>`_
 for easily add images, banners and carousels around the content on your site.
 
+The add-on is very useful for extra portlet manager add-ons like
+`Products.ContentWellPortlets <http://plone.org/products/contentwellportlets>`_
+to bannerize and decorate your site.
+
 .. contents:: :local:
 
 Features
