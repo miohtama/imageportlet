@@ -18,6 +18,8 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 
 import z3cformhelper  # XXX: Import from plone.app.portlets since Plone 4.3
 
+from plone.formwidget.namedfile.widget import NamedImageFieldWidget
+
 
 def _(x):
     """ Spoof gettext for now """
@@ -264,6 +266,11 @@ class Renderer(base.Renderer):
 
         """
         context = self.context.aq_inner
+
+        if not hasattr(self, "__portlet_metadata__"):
+            # XXX: Plone 3?
+            import pdb ; pdb.set_trace()
+            return ""
 
         # [{'category': 'context', 'assignment': <imageportlet.portlets.Assignment object at 0x1138bb140>, 'name': u'bound-method-assignment-title-of-assignment-at-1', 'key': '/Plone/fi'},
         params = dict(

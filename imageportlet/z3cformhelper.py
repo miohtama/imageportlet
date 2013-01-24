@@ -7,7 +7,17 @@ from zope.interface import implements
 
 from Acquisition import aq_parent, aq_inner
 
-from plone.app.portlets import PloneMessageFactory as _
+try:
+    from plone.app.portlets import PloneMessageFactory as _
+    PLONE4 = True
+except ImportError:
+    # Plone 3.3 fallbacks
+    def _(x, default=""):
+        if default != "":
+            return default
+        return x
+    PLONE4 = False
+
 from plone.app.portlets.browser.interfaces import IPortletAddForm
 from plone.app.portlets.browser.interfaces import IPortletEditForm
 from plone.app.portlets.interfaces import IPortletPermissionChecker
@@ -28,11 +38,18 @@ def getSiteRootRelativePath(context, request):
 
     # Both of these are tuples
     site_path = site.getPhysicalPath()
+    if not hasattr(context, "getPhysicalPath"):
+        # Plone 3 fix
+        #  <Products.Five.metaclass.AddForm object at 0x106671290> ->
+        #  /xx/fi/++contextportlets++ContentWellPortlets.AbovePortletManager1/+>
+        context = context.context
+
     context_path = context.getPhysicalPath()
 
     relative_path = context_path[len(site_path):]
 
     return "/" + "/".join(relative_path)
+
 
 class AddForm(form.AddForm):
     implements(IPortletAddForm)

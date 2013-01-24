@@ -93,7 +93,12 @@ class ImagePortletImageDownload(ImagePortletHelper):
         name = self.request.form.get("portletName")
         manager = self.request.form.get("portletManager")
         imageId = self.request.form.get("image")
-        key = self.request.form.get("portletKey")
+        key = self.request.form.get("portletKey", None)
+
+        if not key:
+            # This is probably a bot trying to fetch the image
+            # and clearing the query string
+            return "Bad query string - no image available"
 
         portlet = self.getPortletById(content, manager, key, name)
         if not portlet:

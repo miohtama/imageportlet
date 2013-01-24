@@ -24,7 +24,6 @@
     display: table-cell;
 }
 
-
 /* Hack IE7 support */
 .image-portlet-carousel a,
 .image-portlet-no-carousel a {
@@ -34,4 +33,7 @@
 /* IE7 fails */
 .image-portlet-text {
     *display: none;
+}
+.hidden-portlet {
+    display: none;
 }
