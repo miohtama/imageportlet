@@ -24,3 +24,14 @@
     display: table-cell;
 }
 
+
+/* Hack IE7 support */
+.image-portlet-carousel a,
+.image-portlet-no-carousel a {
+    *display: block;
+}
+
+/* IE7 fails */
+.image-portlet-text {
+    *display: none;
+}

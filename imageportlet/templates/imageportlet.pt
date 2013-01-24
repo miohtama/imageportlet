@@ -1,4 +1,4 @@
-<dl tal:attributes="class string:portlet imagePortlet ${view/data/css}" xmlns:tal="http://xml.zope.org/namespaces/tal">
+<dl tal:attributes="class string:portlet imagePortlet ${view/getPortletCSSClass}" xmlns:tal="http://xml.zope.org/namespaces/tal">
 
     <dd>
 

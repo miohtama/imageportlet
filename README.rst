@@ -34,6 +34,8 @@ Limitations
 
 IE6 might not render over-the-image text correclty, but the user interface is still functional.
 
+IE7 does not support text over images portlets.
+
 Installation
 -------------
 

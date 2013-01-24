@@ -284,9 +284,25 @@ class Renderer(base.Renderer):
 
         if len(self.imageData) > 1:
             # Referred in JS
-            return "image-portlet-carousel"
+            cls = "image-portlet-carousel"
         else:
-            return "image-portlet-no-carousel"
+            cls = "image-portlet-no-carousel"
+        return cls
+
+    def getPortletCSSClass(self):
+        """
+        """
+        cls = ""
+
+        if self.getOnImageText():
+            cls += " image-portlet-text"
+        else:
+            cls += " image-portlet-no-text"
+
+        if self.data.css:
+            cls += self.data.css
+
+        return cls
 
     def getWrapperStyle(self):
         """
@@ -300,7 +316,7 @@ class Renderer(base.Renderer):
             max_width = max(size[0], max_width)
             max_height = max(size[1], max_height)
 
-        return "min-width: %dpx; min-height: %dpx" % (max_width, max_height)
+        return "width: %dpx; height: %dpx" % (max_width, max_height)
 
 
 class AddForm(z3cformhelper.AddForm):
