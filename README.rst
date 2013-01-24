@@ -79,14 +79,9 @@ Go to any portlet manager and choose *Add new portlert... Image Portlet*.
 Limitations
 ===========================
 
-IE6 might not render over-the-image text correclty, but the user interface is still functional.
+IE6, IE7 cannot do over-the-image text correclty and those portlets are hidden.
 
-<<<<<<< HEAD
-IE7 does not support text over images portlets.
 
-Installation
--------------
-=======
 Troubleshooting
 ===========================
 
@@ -116,7 +111,6 @@ Similar add-ons
 =================
 
 * `redomino.tabsandslides <http://pypi.python.org/pypi/redomino.tabsandslides/>`_
->>>>>>> 8474e8da0cf0efd2411cd3bf101e457c62d7af5f
 
 * `collective.tabr <https://github.com/collective/collective.tabr>´_
 
