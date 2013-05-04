@@ -1,10 +1,10 @@
 Changelog for imageportlet
 --------------------------
 
-1.1 (unreleased)
+1.1 (2013-05-04)
 ----------------
 
-- Nothing changed yet.
+- Plone 4.3 compatibility / grok.CodeView issue [miohtama]
 
 
 1.0 (2012-11-15)
