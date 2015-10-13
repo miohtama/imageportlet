@@ -33,7 +33,7 @@ grok.templatedir("templates")
 grok.layer(IAddonSpecific)
 
 
-class ImagePortletHelper(grok.CodeView):
+class ImagePortletHelper(grok.View):
     """
     Expose stuff downloadable from the image portlet BLOBs.
     """

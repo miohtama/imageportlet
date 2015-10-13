@@ -15,6 +15,11 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+   <browser:resourceDirectory
+        name="imageportlet"
+        directory="static"
+        />
+
   <grok:grok package="." />
 
   <i18n:registerTranslations directory="locales" />

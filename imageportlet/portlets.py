@@ -11,14 +11,11 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plone.directives import form
 from plone.app.portlets.portlets import base
-#from Products.TinyMCE.vocabularies import thumbnail_sizes_vocabulary
 
 from plone.namedfile.field import NamedImage
 from plone.namedfile.interfaces import IImageScaleTraversable
 
 import z3cformhelper  # XXX: Import from plone.app.portlets since Plone 4.3
-
-from plone.formwidget.namedfile.widget import NamedImageFieldWidget
 
 
 def _(x):
