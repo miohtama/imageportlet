@@ -60,7 +60,7 @@ class IImagePortlet(form.Schema):
             default=None)
 
     link3 = schema.TextLine(title=_(u"Link #3"),
-                           description=_(u"Absolute or site root relative link target for image #2"),
+                           description=_(u"Absolute or site root relative link target for image #3"),
                            required=False,
                            default=None)
 
@@ -71,14 +71,76 @@ class IImagePortlet(form.Schema):
             default=None)
 
     link4 = schema.TextLine(title=_(u"Link #4"),
-                           description=_(u"Absolute or site root relative link target for image #2"),
+                           description=_(u"Absolute or site root relative link target for image #4"),
                            required=False,
                            default=None)
 
-    # XXX: Have site specific configurable vocabulary for portlets here
-    #imageSize = schema.Choice(title=_(u"Image size"),
-    #                         description=_(u"Leave empty to use the orignal size"),
-    #                         source=thumbnail_sizes_vocabulary, required=False)
+    image5 = NamedImage(
+            title=_(u"Image #5"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+            default=None)
+
+    link5 = schema.TextLine(title=_(u"Link #5"),
+                           description=_(u"Absolute or site root relative link target for image #5"),
+                           required=False,
+                           default=None)
+
+    image6 = NamedImage(
+            title=_(u"Image #6"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+            default=None)
+
+    link6 = schema.TextLine(title=_(u"Link #6"),
+                           description=_(u"Absolute or site root relative link target for image #6"),
+                           required=False,
+                           default=None)
+
+    image7 = NamedImage(
+            title=_(u"Image #7"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+            default=None)
+
+    link7 = schema.TextLine(title=_(u"Link #7"),
+                           description=_(u"Absolute or site root relative link target for image #7"),
+                           required=False,
+                           default=None)
+
+    image8 = NamedImage(
+            title=_(u"Image #8"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+            default=None)
+
+    link8 = schema.TextLine(title=_(u"Link #8"),
+                           description=_(u"Absolute or site root relative link target for image #8"),
+                           required=False,
+                           default=None)
+
+    image9 = NamedImage(
+            title=_(u"Image #9"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+            default=None)
+
+    link9 = schema.TextLine(title=_(u"Link #9"),
+                           description=_(u"Absolute or site root relative link target for image #9"),
+                           required=False,
+                           default=None)
+
+    image10 = NamedImage(
+            title=_(u"Image #10"),
+            description=_(u"Several images will be shown as a carousel"),
+            required=False,
+            default=None)
+
+    link10 = schema.TextLine(title=_(u"Link #10"),
+                           description=_(u"Absolute or site root relative link target for image #10"),
+                           required=False,
+                           default=None)
+
 
     headingText = schema.TextLine(title=_(u"Heading"),
                            description=_(u"Text above the portlet"),
@@ -130,6 +192,24 @@ class Assignment(base.Assignment):
     image4 = FieldProperty(IImagePortlet["image4"])
     link4 = FieldProperty(IImagePortlet["link4"])
 
+    image5 = FieldProperty(IImagePortlet["image5"])
+    link5 = FieldProperty(IImagePortlet["link5"])
+
+    image6 = FieldProperty(IImagePortlet["image6"])
+    link6 = FieldProperty(IImagePortlet["link6"])
+
+    image7 = FieldProperty(IImagePortlet["image7"])
+    link7 = FieldProperty(IImagePortlet["link7"])
+
+    image8 = FieldProperty(IImagePortlet["image8"])
+    link8 = FieldProperty(IImagePortlet["link8"])
+
+    image9 = FieldProperty(IImagePortlet["image9"])
+    link9 = FieldProperty(IImagePortlet["link9"])
+
+    image10 = FieldProperty(IImagePortlet["image10"])
+    link10 = FieldProperty(IImagePortlet["link10"])
+
     def __init__(self, **kwargs):
         self.__dict__.update(**kwargs)
 
@@ -172,14 +252,19 @@ class Renderer(base.Renderer):
             data.append(dict(image=self.data.image, link=self.data.link, id="image"))
 
         # getattr -> migration safe
-        if getattr(self.data, "image2", None):
-            data.append(dict(image=self.data.image2, link=self.data.link2, id="image2"))
+        for i in range(2, 10):
+            image_id = "image%d" % i
+            link_id = "link%d" % i
+            if getattr(self.data, image_id, None):
+                image = getattr(self.data, image_id)
+                link = getattr(self.data, link_id)
+                data.append(dict(image=image, link=link, id=image_id))
 
-        if getattr(self.data, "image3", None):
-            data.append(dict(image=self.data.image3, link=self.data.link3, id="image3"))
+        # if getattr(self.data, "image3", None):
+        #    data.append(dict(image=self.data.image3, link=self.data.link3, id="image3"))
 
-        if getattr(self.data, "image4", None):
-            data.append(dict(image=self.data.image4, link=self.data.link4, id="image4"))
+        # if getattr(self.data, "image4", None):
+        #    data.append(dict(image=self.data.image4, link=self.data.link4, id="image4"))
 
         # Randomize the display order
         shuffle(data)
@@ -266,11 +351,6 @@ class Renderer(base.Renderer):
 
         """
         context = self.context.aq_inner
-
-        if not hasattr(self, "__portlet_metadata__"):
-            # XXX: Plone 3?
-            import pdb ; pdb.set_trace()
-            return ""
 
         # [{'category': 'context', 'assignment': <imageportlet.portlets.Assignment object at 0x1138bb140>, 'name': u'bound-method-assignment-title-of-assignment-at-1', 'key': '/Plone/fi'},
         params = dict(
